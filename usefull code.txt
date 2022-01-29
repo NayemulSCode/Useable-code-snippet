@@ -1,0 +1,100 @@
+validation----
+
+1. input filed only take number react-typescript code
+<input type="text"
+        name="invoice_prefix"
+        placeholder="Enter a number"
+        onKeyPress = {(event:any) => {
+           if (!/[0-9]/.test(event.key)) {
+               event.preventDefault();
+            }
+          }}
+          onChange={(e:any) => { setIseqNumber(e.target.value) }}
+/>
+
+2. use ref react typeScript
+
+let invStartRef = useRef<HTMLInputElement | null>(null);
+
+3. only first chater white space is not allow
+
+ <input type="text" onKeyPress={(e: any) => { handleWhiteSpce(e) }} />
+
+ const handleWhiteSpce = (e: any) => {
+        e = e || window.event;
+        const value = e.target.value;
+        let key = e.charCode;
+        if (key === 32 && value === "") {
+            e.preventDefault();
+        }
+    }
+
+4. input field only valid for + and 0-9 number 
+
+const handleWhiteSpce = (e: any) => {
+   e = e || window.event;
+   const value = e.target.value
+   let key = e.charCode;
+   if (key === 32 && value==="") {
+       e.preventDefault();
+   }
+}
+
+<input
+   name="mobile"
+   type="text"
+   placeholder="Enter mobile number"
+   onChange={handleUpdate}
+   onKeyPress={(e: any) => { 
+   handleWhiteSpce(e);
+   if (/([^+0-9]+)/gi.test(e.key)) {
+      e.preventDefault();
+   } 
+  }}
+/>
+
+5. catch url response message ans how it
+
+const searchParam = new URLSearchParams(useLocation().search)
+  const msg = searchParam?.get("message");
+  if(msg){
+    console.log("search param", msg)
+  }
+
+useEffect(()=>{
+    if(msg){
+      enqueueSnackbar(msg, {
+        variant: 'info',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+        transitionDuration: {
+          enter: 300,
+          exit: 500
+        }
+      });
+    }
+  }, [])
+
+6. query recall after edit or create mutation
+
+const [updateCloseDate] = useMutation(CLOSE_DATE_UPDATE,{
+        refetchQueries: [{ query: BUSINESS_SETUP_Q }],
+        awaitRefetchQueries: true,
+    });
+
+7. date format from unix date format
+
+console.log(moment.unix(item.date).format('LT'));
+console.log(moment.unix(item.date).format('HH:mm'));
+console.log(moment.unix(item.date).format('ll'));
+console.log(moment.unix(item.date).format('MMM'));
+console.log(moment.unix(item.date).format('ddd'));
+console.log(moment.unix(item.date).format('MMMM-D'));
+
+7. bangladesh time zoone ofset change
+
+const sDate = moment.unix(item.start).utcOffset('+0600').format('YYYY MM DD H:m');
+            // const sTimeZone = moment(sDate).utcOffset('+0000').format('YYYY MM DD HH:mm')
+const eDate = moment.unix(item.end).utcOffset('+0600').format('YYYY MM DD H:m')
